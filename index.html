@@ -16,7 +16,7 @@
     }
   </script>
 
-  <!-- 引入 FontAwesome 圖示庫 (替代原本需要安裝的圖示套件) -->
+  <!-- 引入 FontAwesome 圖示庫 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <!-- 引入 React 與 ReactDOM -->
@@ -133,7 +133,7 @@
           <div className={`fixed inset-y-0 left-0 z-30 w-64 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 transform transition-transform duration-300 lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:static lg:block flex flex-col h-full shadow-lg lg:shadow-none`}>
             <div className="p-4 flex items-center justify-between">
               <div className="flex items-center space-x-3 font-bold text-lg text-gray-800 dark:text-gray-100">
-                <div className="w-8 h-8 bg-blue-600 text-white rounded-lg flex items-center justify-center">
+                <div className="w-8 h-8 bg-blue-600 text-white rounded-lg flex items-center justify-center shadow-sm">
                   <i className="fa-solid fa-w"></i>
                 </div>
                 <span>協會知識庫</span>
@@ -206,7 +206,7 @@
                   <input
                     type="text"
                     placeholder="全站搜尋（試著搜尋：旅平險）..."
-                    className="block w-full pl-10 pr-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg leading-5 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent sm:text-sm transition-all"
+                    className="block w-full pl-10 pr-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg leading-5 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent sm:text-sm transition-all shadow-sm"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                   />
@@ -233,7 +233,7 @@
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white flex items-center">
               👋 蘇秘書，歡迎回來
             </h1>
-            <p className="mt-2 text-gray-600 dark:text-gray-400">今天是個處理會務的好日子。你需要找什麼？</p>
+            <p className="mt-2 text-gray-600 dark:text-gray-400">今天是個處理會務的好日子。您需要找什麼？</p>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
@@ -406,7 +406,7 @@
                 className="w-10 h-10 flex items-center justify-center text-gray-500 hover:text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-gray-300 rounded-lg transition-colors border border-transparent hover:border-gray-200 dark:hover:border-gray-600"
                 title="列印或匯出PDF"
               >
-                <i className="fa-solid fa-print"></i>
+                <i className="fa-solid fa-print text-lg"></i>
               </button>
             </div>
 
