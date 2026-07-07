@@ -66,30 +66,31 @@
     ];
 
     const QUICK_ACTIONS = [
-      { id: 'board_meeting', title: '理監事聯席會', icon: 'fa-solid fa-users', color: 'bg-blue-100 text-blue-600 dark:bg-blue-900/50 dark:text-blue-400' },
-      { id: 'new_member', title: '新增會員', icon: 'fa-solid fa-user-plus', color: 'bg-green-100 text-green-600 dark:bg-green-900/50 dark:text-green-400' },
-      { id: 'insurance', title: '旅平險', icon: 'fa-solid fa-shield-halved', color: 'bg-purple-100 text-purple-600 dark:bg-purple-900/50 dark:text-purple-400' },
-      { id: 'finance', title: '財務報表', icon: 'fa-solid fa-file-invoice-dollar', color: 'bg-yellow-100 text-yellow-600 dark:bg-yellow-900/50 dark:text-yellow-400' },
-      { id: 'drive', title: '工作硬碟', icon: 'fa-solid fa-hard-drive', color: 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300' },
-      { id: 'photos', title: '活動照片', icon: 'fa-solid fa-images', color: 'bg-pink-100 text-pink-600 dark:bg-pink-900/50 dark:text-pink-400' },
+      { id: 'core_concepts', title: '核心觀念(必讀)', icon: 'fa-solid fa-book-open', color: 'bg-indigo-100 text-indigo-600 dark:bg-indigo-900/50 dark:text-indigo-400' },
+      { id: 'board_meeting_sop', title: '理監事 SOP', icon: 'fa-solid fa-users-gear', color: 'bg-blue-100 text-blue-600 dark:bg-blue-900/50 dark:text-blue-400' },
+      { id: 'new_member', title: '新增會員 SOP', icon: 'fa-solid fa-user-plus', color: 'bg-green-100 text-green-600 dark:bg-green-900/50 dark:text-green-400' },
+      { id: 'insurance', title: '旅平險 SOP', icon: 'fa-solid fa-shield-halved', color: 'bg-purple-100 text-purple-600 dark:bg-purple-900/50 dark:text-purple-400' },
+      { id: 'handover', title: '友會交接 SOP', icon: 'fa-solid fa-handshake', color: 'bg-yellow-100 text-yellow-600 dark:bg-yellow-900/50 dark:text-yellow-400' },
+      { id: 'board_meeting_checklist', title: '出門 Checklist', icon: 'fa-solid fa-list-check', color: 'bg-orange-100 text-orange-600 dark:bg-orange-900/50 dark:text-orange-400' },
     ];
 
     const RECENT_DOCS = [
-      { id: 'doc1', title: '第二次理監事聯席會', type: 'meeting', time: '2小時前', icon: 'fa-solid fa-users' },
-      { id: 'doc2', title: '旅平險 SOP', type: 'sop', time: '昨天', icon: 'fa-solid fa-shield-halved' },
-      { id: 'doc3', title: '會員大會簽到表', type: 'file', time: '3天前', icon: 'fa-solid fa-file-signature' },
-      { id: 'doc4', title: '2025會員名冊', type: 'file', time: '上週', icon: 'fa-solid fa-address-book' },
+      { id: 'core_concepts', title: '工作核心觀念與工具', type: 'sop', time: '剛剛', icon: 'fa-solid fa-book-open' },
+      { id: 'board_meeting_sop', title: '理監事聯席會 SOP', type: 'sop', time: '2小時前', icon: 'fa-solid fa-users-gear' },
+      { id: 'insurance', title: '旅遊平安險 SOP', type: 'sop', time: '昨天', icon: 'fa-solid fa-shield-halved' },
+      { id: 'new_member', title: '新增會員 SOP', type: 'sop', time: '3天前', icon: 'fa-solid fa-user-plus' },
     ];
 
+    // 依據手冊更新的 Checklist
     const CHECKLIST_ITEMS = [
-      { id: 'c1', label: '財務報表', defaultChecked: false },
-      { id: 'c2', label: 'PPT 簡報', defaultChecked: false },
-      { id: 'c3', label: '簽到表', defaultChecked: false },
-      { id: 'c4', label: '禮品表', defaultChecked: true },
-      { id: 'c5', label: '筆記型電腦', defaultChecked: false },
-      { id: 'c6', label: '抽獎券', defaultChecked: false },
-      { id: 'c7', label: '抽獎箱', defaultChecked: false },
-      { id: 'c8', label: '壽星蛋糕', defaultChecked: false },
+      { id: 'c1', label: '筆記型電腦 (可播放 PPT)', defaultChecked: false },
+      { id: 'c2', label: '三長簽到表', defaultChecked: false },
+      { id: 'c3', label: '六組簽到表', defaultChecked: false },
+      { id: 'c4', label: '來賓簽到表 (如有活動)', defaultChecked: false },
+      { id: 'c5', label: '禮品領取表', defaultChecked: false },
+      { id: 'c6', label: '紅色抽獎券', defaultChecked: false },
+      { id: 'c7', label: '黃色抽獎券', defaultChecked: false },
+      { id: 'c8', label: '抽獎箱', defaultChecked: false },
     ];
 
     function App() {
@@ -99,7 +100,6 @@
       const [searchQuery, setSearchQuery] = useState('');
       const [checklist, setChecklist] = useState(CHECKLIST_ITEMS);
 
-      // 控制深色模式
       useEffect(() => {
         if (isDark) {
           document.documentElement.classList.add('dark');
@@ -108,21 +108,18 @@
         }
       }, [isDark]);
 
-      // 控制 Checklist 點擊打勾
       const toggleChecklist = (id) => {
         setChecklist(checklist.map(item => 
           item.id === id ? { ...item, defaultChecked: !item.defaultChecked } : item
         ));
       };
 
-      // 呼叫列印/匯出 PDF 視窗
       const handlePrint = () => {
         window.print();
       };
 
       const Sidebar = () => (
         <React.Fragment>
-          {/* 手機版的半透明遮罩 */}
           {sidebarOpen && (
             <div 
               className="fixed inset-0 bg-black/50 z-20 lg:hidden"
@@ -134,7 +131,7 @@
             <div className="p-4 flex items-center justify-between">
               <div className="flex items-center space-x-3 font-bold text-lg text-gray-800 dark:text-gray-100">
                 <div className="w-8 h-8 bg-blue-600 text-white rounded-lg flex items-center justify-center shadow-sm">
-                  <i className="fa-solid fa-w"></i>
+                  <i className="fa-solid fa-book-bookmark"></i>
                 </div>
                 <span>協會知識庫</span>
               </div>
@@ -151,20 +148,41 @@
                     onClick={() => { setCurrentView('home'); setSidebarOpen(false); }}
                     className={`w-full flex items-center px-3 py-2.5 text-sm font-medium rounded-md transition-colors ${currentView === 'home' ? 'bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400' : 'text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800/50'}`}
                   >
-                    <i className="fa-solid fa-house w-5 text-center mr-2"></i> 首頁
+                    <i className="fa-solid fa-house w-5 text-center mr-2"></i> 首頁 Dashboard
                   </button>
-                  <button className="w-full flex items-center px-3 py-2.5 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800/50">
-                    <i className="fa-solid fa-star w-5 text-center mr-2 text-yellow-500"></i> 收藏頁面
+                  <button 
+                    onClick={() => { setCurrentView('core_concepts'); setSidebarOpen(false); }}
+                    className={`w-full flex items-center px-3 py-2.5 text-sm font-medium rounded-md transition-colors ${currentView === 'core_concepts' ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-400' : 'text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800/50'}`}
+                  >
+                    <i className="fa-solid fa-lightbulb w-5 text-center mr-2 text-indigo-500"></i> 新手入門必讀
                   </button>
                 </nav>
               </div>
 
               <div>
-                <p className="px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">工作區分類</p>
+                <p className="px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">SOP 手冊</p>
+                <nav className="space-y-1">
+                  <button onClick={() => { setCurrentView('board_meeting_sop'); setSidebarOpen(false); }} className={`w-full flex items-center px-3 py-2.5 text-sm font-medium rounded-md transition-colors ${currentView === 'board_meeting_sop' ? 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white' : 'text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800/50'}`}>
+                    <i className="fa-solid fa-users-gear w-5 text-center mr-2 text-gray-400"></i> 理監事聯席會
+                  </button>
+                  <button onClick={() => { setCurrentView('insurance'); setSidebarOpen(false); }} className={`w-full flex items-center px-3 py-2.5 text-sm font-medium rounded-md transition-colors ${currentView === 'insurance' ? 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white' : 'text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800/50'}`}>
+                    <i className="fa-solid fa-shield-halved w-5 text-center mr-2 text-gray-400"></i> 旅遊平安險
+                  </button>
+                  <button onClick={() => { setCurrentView('new_member'); setSidebarOpen(false); }} className={`w-full flex items-center px-3 py-2.5 text-sm font-medium rounded-md transition-colors ${currentView === 'new_member' ? 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white' : 'text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800/50'}`}>
+                    <i className="fa-solid fa-user-plus w-5 text-center mr-2 text-gray-400"></i> 新增會員
+                  </button>
+                  <button onClick={() => { setCurrentView('handover'); setSidebarOpen(false); }} className={`w-full flex items-center px-3 py-2.5 text-sm font-medium rounded-md transition-colors ${currentView === 'handover' ? 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white' : 'text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800/50'}`}>
+                    <i className="fa-solid fa-handshake w-5 text-center mr-2 text-gray-400"></i> 友會交接
+                  </button>
+                </nav>
+              </div>
+
+              <div>
+                <p className="px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">硬碟資料夾 (唯讀)</p>
                 <nav className="space-y-1">
                   {DIRECTORIES.map(dir => (
-                    <button key={dir.id} className="w-full flex items-center px-3 py-2.5 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800/50 transition-colors">
-                      <i className={`${dir.icon} w-5 text-center mr-2 text-gray-400 dark:text-gray-500`}></i>
+                    <button key={dir.id} className="w-full flex items-center px-3 py-2.5 text-sm font-medium rounded-md text-gray-500 hover:bg-gray-50 dark:text-gray-500 dark:hover:bg-gray-800/30 transition-colors cursor-not-allowed">
+                      <i className={`${dir.icon} w-5 text-center mr-2 opacity-50`}></i>
                       {dir.name}
                     </button>
                   ))}
@@ -179,7 +197,7 @@
                 </div>
                 <div className="ml-3 flex-1 overflow-hidden">
                   <p className="text-sm font-medium text-gray-700 dark:text-gray-200 truncate">蘇秘書</p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400 truncate">secretary@association.org</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 truncate">V1.0 持續更新中</p>
                 </div>
               </div>
             </div>
@@ -205,7 +223,7 @@
                   </div>
                   <input
                     type="text"
-                    placeholder="全站搜尋（試著搜尋：旅平險）..."
+                    placeholder="全站搜尋（輸入：旅平險）..."
                     className="block w-full pl-10 pr-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg leading-5 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent sm:text-sm transition-all shadow-sm"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
@@ -233,7 +251,9 @@
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white flex items-center">
               👋 蘇秘書，歡迎回來
             </h1>
-            <p className="mt-2 text-gray-600 dark:text-gray-400">今天是個處理會務的好日子。您需要找什麼？</p>
+            <p className="mt-2 text-gray-600 dark:text-gray-400">
+              這裡整理了協會行政作業的一致性流程。若您是新任，建議先閱讀「<a href="#" onClick={(e)=>{e.preventDefault(); setCurrentView('core_concepts');}} className="text-blue-500 hover:underline">工作核心觀念</a>」。
+            </p>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
@@ -256,13 +276,13 @@
           <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 overflow-hidden shadow-sm">
             <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between bg-gray-50/50 dark:bg-gray-800/50">
               <h2 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center">
-                <i className="fa-solid fa-star mr-2 text-yellow-500"></i>
-                最近常用與收藏
+                <i className="fa-solid fa-clock-rotate-left mr-2 text-gray-400"></i>
+                最近使用的 SOP
               </h2>
             </div>
             <ul className="divide-y divide-gray-100 dark:divide-gray-800">
               {RECENT_DOCS.map((doc, idx) => (
-                <li key={idx} className="px-6 py-4 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors cursor-pointer flex items-center justify-between group">
+                <li key={idx} onClick={() => setCurrentView(doc.id)} className="px-6 py-4 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors cursor-pointer flex items-center justify-between group">
                   <div className="flex items-center">
                     <i className={`${doc.icon} w-5 text-center text-gray-400 mr-3 group-hover:text-blue-500 transition-colors`}></i>
                     <span className="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{doc.title}</span>
@@ -278,82 +298,372 @@
         </div>
       );
 
-      const BoardMeetingView = () => {
-        const modules = [
-          { id: 'sop', title: '標準作業流程 (SOP)', icon: 'fa-solid fa-file-lines', desc: '會議前中後完整流程與規範', color: 'text-blue-500' },
-          { id: 'checklist', title: '攜帶清單 (Checklist)', icon: 'fa-regular fa-square-check', desc: '每次開會必備物品確認表', color: 'text-green-500' },
-          { id: 'finance', title: '財務報表', icon: 'fa-solid fa-file-invoice-dollar', desc: '本期與歷年財務報表彙整', color: 'text-yellow-500' },
-          { id: 'ppt', title: '簡報 (PPT)', icon: 'fa-solid fa-file-image', desc: '會議用公版與歷次簡報', color: 'text-purple-500' },
-          { id: 'report', title: '會務報告', icon: 'fa-solid fa-file-word', desc: '秘書處會務報告草稿與定稿', color: 'text-indigo-500' },
-          { id: 'minutes', title: '會議紀錄', icon: 'fa-solid fa-clock-rotate-left', desc: '歷次理監事會議紀錄存檔', color: 'text-gray-500' },
-        ];
+      // --- 共用的 SOP 排版元件 (Notion 風格) ---
+      const SOPLayout = ({ title, breadcrumbs = [], lastUpdated, tags = [], children }) => (
+        <div className="max-w-4xl mx-auto fade-in pb-20">
+          <div className="flex items-center text-sm text-gray-500 mb-6 print:hidden">
+            <button onClick={() => setCurrentView('home')} className="hover:text-gray-900 dark:hover:text-white">首頁</button>
+            <i className="fa-solid fa-chevron-right text-xs mx-2"></i>
+            {breadcrumbs.map((b, i) => (
+              <React.Fragment key={i}>
+                <button onClick={() => setCurrentView(b.id)} className="hover:text-gray-900 dark:hover:text-white">{b.label}</button>
+                <i className="fa-solid fa-chevron-right text-xs mx-2"></i>
+              </React.Fragment>
+            ))}
+            <span className="text-gray-900 dark:text-white font-medium">{title}</span>
+          </div>
 
-        return (
-          <div className="max-w-5xl mx-auto fade-in">
-            <div className="flex items-center text-sm text-gray-500 mb-6">
-              <button onClick={() => setCurrentView('home')} className="hover:text-gray-900 dark:hover:text-white transition-colors">首頁</button>
-              <i className="fa-solid fa-chevron-right text-xs mx-2"></i>
-              <span className="text-gray-900 dark:text-white font-medium">理監事聯席會</span>
+          <article className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 sm:p-12 relative">
+            <div className="absolute top-6 right-6 sm:top-8 sm:right-8 flex space-x-2 print:hidden">
+               <button 
+                onClick={handlePrint}
+                className="w-10 h-10 flex items-center justify-center text-gray-500 hover:text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-gray-300 rounded-lg transition-colors border border-transparent hover:border-gray-200 dark:hover:border-gray-600"
+                title="列印或匯出PDF"
+              >
+                <i className="fa-solid fa-print text-lg"></i>
+              </button>
             </div>
 
-            <div className="flex items-center justify-between mb-8">
-              <div>
-                <h1 className="text-3xl font-bold text-gray-900 dark:text-white flex items-center">
-                  <span className="bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-300 w-12 h-12 flex items-center justify-center rounded-xl mr-4 shadow-sm">
-                    <i className="fa-solid fa-users text-xl"></i>
-                  </span>
-                  理監事聯席會
-                </h1>
-                <p className="mt-3 text-gray-600 dark:text-gray-400">管理所有與理監事聯席會相關的籌備、文件與紀錄。</p>
+            <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white mb-4 pr-12">{title}</h1>
+            
+            <div className="flex flex-wrap items-center gap-4 mb-8 text-sm text-gray-500 dark:text-gray-400 border-b border-gray-100 dark:border-gray-700 pb-6">
+              <div className="flex items-center">
+                <div className="w-6 h-6 rounded-full bg-blue-500 text-white flex items-center justify-center mr-2 text-xs font-bold shadow-sm">V1</div>
+                最後更新：{lastUpdated}
               </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {modules.map(mod => (
-                <div 
-                  key={mod.id} 
-                  onClick={() => {
-                    if (mod.id === 'checklist') setCurrentView('checklist');
-                    if (mod.id === 'sop') setCurrentView('sop');
-                  }}
-                  className="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 hover:border-blue-400 dark:hover:border-blue-600 hover:shadow-lg transition-all cursor-pointer group"
-                >
-                  <div className="w-12 h-12 rounded-xl bg-gray-50 dark:bg-gray-700 flex items-center justify-center group-hover:bg-blue-50 dark:group-hover:bg-blue-900/50 transition-colors mb-4">
-                    <i className={`${mod.icon} text-2xl ${mod.color}`}></i>
-                  </div>
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">{mod.title}</h3>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">{mod.desc}</p>
+              {tags.map((tag, i) => (
+                <div key={i} className="flex items-center text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full font-medium text-xs">
+                  {tag}
                 </div>
               ))}
+            </div>
+
+            <div className="space-y-8 text-base leading-relaxed">
+              {children}
+            </div>
+          </article>
+        </div>
+      );
+
+      // Section 樣式元件
+      const SectionTitle = ({ children }) => (
+        <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 border-l-4 border-blue-500 pl-4 mb-4 mt-8">{children}</h2>
+      );
+      
+      const SubTitle = ({ children }) => (
+        <h3 className="text-xl font-bold text-gray-700 dark:text-gray-200 mt-6 mb-3 flex items-center">
+          <i className="fa-solid fa-angle-right text-sm text-blue-500 mr-2"></i>{children}
+        </h3>
+      );
+
+      const AlertBox = ({ icon = "fa-lightbulb", color = "blue", title, children }) => {
+        const colorClasses = {
+          blue: "bg-blue-50 dark:bg-blue-900/20 border-blue-100 dark:border-blue-800/50 text-blue-800 dark:text-blue-300",
+          yellow: "bg-yellow-50 dark:bg-yellow-900/20 border-yellow-100 dark:border-yellow-800/50 text-yellow-800 dark:text-yellow-300",
+          red: "bg-red-50 dark:bg-red-900/20 border-red-100 dark:border-red-800/50 text-red-800 dark:text-red-300",
+        };
+        return (
+          <div className={`rounded-xl p-5 border shadow-sm ${colorClasses[color]}`}>
+            <h4 className="font-bold flex items-center mb-2">
+              <i className={`fa-solid ${icon} text-xl mr-2`}></i> {title}
+            </h4>
+            <div className="m-0 text-sm sm:text-base opacity-90">
+              {children}
             </div>
           </div>
         );
       };
 
-      const ChecklistView = () => (
+      const BulletList = ({ items, type="dot" }) => (
+        <ul className="space-y-2 text-gray-700 dark:text-gray-300 ml-2">
+          {items.map((item, i) => (
+            <li key={i} className="flex items-start">
+              {type === 'dot' ? (
+                <span className="w-1.5 h-1.5 rounded-full bg-blue-400 mt-2 mr-3 flex-shrink-0"></span>
+              ) : type === 'check' ? (
+                <i className="fa-solid fa-check text-green-500 mt-1 mr-3 flex-shrink-0"></i>
+              ) : (
+                <i className="fa-solid fa-caret-right text-blue-500 mt-1 mr-3 flex-shrink-0"></i>
+              )}
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      );
+
+
+      // --- 各篇 SOP 的內容 ---
+
+      const CoreConceptsView = () => (
+        <SOPLayout title="工作核心觀念與工具" lastUpdated="今天" tags={["必讀", "系統觀念"]}>
+          <p className="text-lg text-gray-600 dark:text-gray-400 border-b border-gray-100 dark:border-gray-700 pb-4">
+            目的：協助新任秘書快速了解工作內容，降低交接成本，維持協會行政作業一致性。
+          </p>
+
+          <SectionTitle>工作核心觀念</SectionTitle>
+          <SubTitle>一、先找範本，再開始做</SubTitle>
+          <p className="text-gray-700 dark:text-gray-300 mb-3">協會大部分行政工作都有歷年範本可參考。開始任何工作前，請先至工作硬碟或雲端硬碟尋找歷年資料，不需自行從零開始製作。</p>
+          <div className="bg-gray-50 dark:bg-gray-700/30 p-4 rounded-lg mb-6 border border-gray-200 dark:border-gray-700">
+            <strong>工作原則：</strong>
+            <BulletList type="arrow" items={[
+              "沿用歷年格式。",
+              "更新本次資料。",
+              "若有新需求，再依當屆會長及秘書長指示調整。",
+              "範本是基礎，指示是依據。"
+            ]} />
+          </div>
+
+          <SubTitle>二、有疑問先詢問</SubTitle>
+          <p className="text-gray-700 dark:text-gray-300 mb-2">若遇到無法判斷的事項：</p>
+          <BulletList items={["先詢問群組。", "或請示秘書長、會長。", "不要自行決定或承諾。"]} />
+
+          <SubTitle>三、資料同步更新</SubTitle>
+          <p className="text-gray-700 dark:text-gray-300 mb-2">任何資料異動，都要思考是否有其他相關文件需要同步修改。例如新增會員，您必須同步更新：</p>
+          <BulletList type="check" items={["會員名冊", "簽到表", "禮品領取表", "統計表（如活動需要）"]} />
+
+          <SubTitle>四、能提前做就提前做</SubTitle>
+          <BulletList items={[
+            "理監事聯席會：約一個月前開始準備。",
+            "接龍開始後，可同步整理會務報告及旅平險名單。",
+            "旅平險最晚於活動前一天完成投保。"
+          ]} />
+
+          <SubTitle>五、圖片先存檔</SubTitle>
+          <p className="text-gray-700 dark:text-gray-300">收到活動圖片、公告、海報等資料，建議先存檔保存。方便後續製作 PPT、活動紀錄、宣傳使用或臨時調閱。</p>
+
+          <SectionTitle>工具與資料夾說明</SectionTitle>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+            <div className="border border-gray-200 dark:border-gray-700 p-4 rounded-xl">
+              <h4 className="font-bold text-gray-800 dark:text-gray-200 mb-2"><i className="fa-solid fa-hard-drive text-gray-400 mr-2"></i> 工作硬碟 & 雲端硬碟</h4>
+              <p className="text-sm text-gray-600 dark:text-gray-400">所有範本、歷年資料及工作檔案皆以硬碟內容為主。請先熟悉資料夾架構。</p>
+            </div>
+            <div className="border border-red-200 dark:border-red-900/50 bg-red-50 dark:bg-red-900/10 p-4 rounded-xl">
+              <h4 className="font-bold text-red-800 dark:text-red-400 mb-2"><i className="fa-solid fa-ban mr-2"></i> 不屬於秘書交接範圍</h4>
+              <p className="text-sm text-red-700 dark:text-red-300">以下事項由秘書長負責：LINE 官方帳號、Email、印章、其他管理權限。</p>
+            </div>
+          </div>
+          
+          <SubTitle>常用資料夾對照</SubTitle>
+          <ul className="space-y-4">
+            <li className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border border-gray-100 dark:border-gray-700">
+              <span className="font-bold text-blue-600 dark:text-blue-400 block mb-2">📁 01－會務</span>
+              <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">主要存放：理監事手冊、理監事聯席會資料、會議紀錄、秘書處會務報告、歷年 PPT、總會 PPT（可供參考）。</p>
+              <p className="text-xs text-gray-500 bg-white dark:bg-gray-900 p-2 rounded border border-gray-200 dark:border-gray-600">理監事聯席會結束後，需整理：會議紀錄、秘書處會務報告至此。</p>
+            </li>
+            <li className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border border-gray-100 dark:border-gray-700">
+              <span className="font-bold text-blue-600 dark:text-blue-400 block mb-2">📁 02－報表</span>
+              <p className="text-sm text-gray-600 dark:text-gray-400">主要存放：活動名單、簽到表、禮品領取表、出席統計表、旅平險相關表單。</p>
+              <p className="text-xs text-gray-500 mt-2">💡 範本位置：02－報表 → 03 活動名單及簽到</p>
+            </li>
+          </ul>
+
+          <SectionTitle>秘書工作提醒 (Checklist)</SectionTitle>
+          <AlertBox icon="fa-clipboard-check" color="blue" title="請養成以下好習慣：">
+            <ul className="space-y-2 mt-2">
+              <li><i className="fa-solid fa-square-check text-blue-500 mr-2"></i>有範本先找範本。</li>
+              <li><i className="fa-solid fa-square-check text-blue-500 mr-2"></i>有疑問先詢問。</li>
+              <li><i className="fa-solid fa-square-check text-blue-500 mr-2"></i>資料異動同步更新。</li>
+              <li><i className="fa-solid fa-square-check text-blue-500 mr-2"></i>圖片先存檔。</li>
+              <li><i className="fa-solid fa-square-check text-blue-500 mr-2"></i>能提前完成就提前完成。</li>
+              <li><i className="fa-solid fa-square-check text-blue-500 mr-2"></i>不自行更改檔案命名及資料夾架構。</li>
+            </ul>
+          </AlertBox>
+        </SOPLayout>
+      );
+
+      const BoardMeetingSOPView = () => (
+        <SOPLayout title="理監事聯席會 SOP" lastUpdated="今天" tags={["會議", "SOP"]}>
+          
+          {/* 加入快捷按鈕跳轉 Checklist */}
+          <div className="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 p-4 rounded-xl flex items-center justify-between mb-8 print:hidden">
+            <div>
+              <h4 className="font-bold text-orange-800 dark:text-orange-300">馬上要出發去會場了嗎？</h4>
+              <p className="text-sm text-orange-700 dark:text-orange-400 m-0">切換到 Checklist 快速清點設備與文件。</p>
+            </div>
+            <button onClick={() => setCurrentView('board_meeting_checklist')} className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg text-sm font-bold shadow transition-colors">
+              開啟 Checklist <i className="fa-solid fa-arrow-right ml-1"></i>
+            </button>
+          </div>
+
+          <SectionTitle>一、會議時間與前置作業</SectionTitle>
+          <div className="flex items-center bg-gray-50 dark:bg-gray-800 p-3 rounded-lg border border-gray-200 dark:border-gray-700 mb-4">
+            <i className="fa-regular fa-calendar-check text-blue-500 text-xl mr-4 ml-2"></i>
+            <div>
+              <span className="block text-sm text-gray-500 dark:text-gray-400">固定會議時間</span>
+              <span className="font-bold text-gray-800 dark:text-gray-100">每隔月第二個星期二。</span>
+            </div>
+          </div>
+          
+          <p className="text-gray-700 dark:text-gray-300 mb-2">建議約 <strong>一個月前</strong> 開始準備以下資料：</p>
+          <div className="grid grid-cols-2 gap-2 pl-4">
+            <BulletList items={["秘書處會務報告", "理監事手冊", "PPT", "財務報表"]} />
+            <BulletList items={["簽到表", "禮品領取表", "出席統計表"]} />
+          </div>
+
+          <SectionTitle>二、財務報表與會務報告</SectionTitle>
+          <SubTitle>財務報表製作方式</SubTitle>
+          <p className="text-gray-700 dark:text-gray-300 mb-2">從第一次理監事聯席會開始，每次皆須製作。</p>
+          <BulletList type="arrow" items={[
+            "沿用前次財務報表。",
+            "更新本次資料。",
+            "不自行重新設計格式。"
+          ]} />
+
+          <SubTitle>秘書處會務報告</SubTitle>
+          <p className="text-gray-700 dark:text-gray-300">採用歷年範本。通常格式不會大幅修改。若有需求，以當屆會長及秘書長指示為主。</p>
+
+          <SectionTitle>三、資料夾命名與特殊項目</SectionTitle>
+          <p className="text-gray-700 dark:text-gray-300 mb-2">會議資料夾命名請依照會議次數建立（依此類推）：</p>
+          <div className="flex space-x-2 mb-6">
+            <span className="bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded text-sm font-mono text-gray-600 dark:text-gray-300">第一次理監事聯席會</span>
+            <span className="bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded text-sm font-mono text-gray-600 dark:text-gray-300">第二次理監事聯席會</span>
+          </div>
+
+          <AlertBox icon="fa-cake-candles" color="yellow" title="第二次理監事聯席會起：需增加壽星統計">
+            <BulletList items={[
+              "統計當月壽星。",
+              "詢問會長是否安排慶生。",
+              "確認蛋糕店家。",
+              "訂購蛋糕（依會長決定）。"
+            ]} />
+          </AlertBox>
+
+        </SOPLayout>
+      );
+
+      const InsuranceSOPView = () => (
+        <SOPLayout title="旅遊平安險 SOP" lastUpdated="今天" tags={["保險", "SOP"]}>
+          <SectionTitle>一、何時需要辦理？</SectionTitle>
+          <p className="text-gray-700 dark:text-gray-300 mb-4">活動地點若離開 <strong>臺中市、彰化縣、南投縣</strong>，即須辦理旅平險。</p>
+          <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
+            <span className="font-bold text-gray-700 dark:text-gray-300 block mb-2">常見適用情況舉例：</span>
+            <div className="flex space-x-3">
+              <span className="bg-white dark:bg-gray-700 px-3 py-1 rounded-md text-sm shadow-sm border border-gray-100 dark:border-gray-600"><i className="fa-solid fa-handshake text-blue-500 mr-2"></i>分會交接</span>
+              <span className="bg-white dark:bg-gray-700 px-3 py-1 rounded-md text-sm shadow-sm border border-gray-100 dark:border-gray-600"><i className="fa-solid fa-building text-blue-500 mr-2"></i>企業參訪</span>
+              <span className="bg-white dark:bg-gray-700 px-3 py-1 rounded-md text-sm shadow-sm border border-gray-100 dark:border-gray-600"><i className="fa-solid fa-map-location-dot text-blue-500 mr-2"></i>外縣市活動</span>
+            </div>
+          </div>
+
+          <SectionTitle>二、工作流程</SectionTitle>
+          <div className="relative border-l-2 border-blue-200 dark:border-blue-900 ml-3 md:ml-4 space-y-8 py-4">
+            {[
+              { title: "確認活動地點", desc: "確認是否跨出中彰投區域。" },
+              { title: "接龍統計人數", desc: "發布群組接龍，確認參加人員。" },
+              { title: "取得旅平險表單", desc: "至「02－報表」資料夾取得歷年範本表單。" },
+              { title: "蒐集投保資料", desc: "蒐集必要之個資與身分證字號等投保資料。" },
+              { title: "完成投保 (注意期限)", desc: "最晚須於活動前一天完成投保作業。", highlight: true }
+            ].map((step, idx) => (
+              <div key={idx} className="relative pl-6 md:pl-8">
+                <div className="absolute w-6 h-6 bg-blue-500 text-white rounded-full -left-[13px] top-0 flex items-center justify-center text-xs font-bold border-4 border-white dark:border-gray-800 shadow-sm">
+                  {idx + 1}
+                </div>
+                <h4 className={`font-bold text-lg mb-1 ${step.highlight ? 'text-red-600 dark:text-red-400' : 'text-gray-800 dark:text-gray-100'}`}>
+                  {step.title}
+                </h4>
+                <p className="text-gray-600 dark:text-gray-400">{step.desc}</p>
+              </div>
+            ))}
+          </div>
+        </SOPLayout>
+      );
+
+      const NewMemberSOPView = () => (
+        <SOPLayout title="新增會員 SOP" lastUpdated="今天" tags={["會員", "SOP"]}>
+          <SectionTitle>工作流程與同步更新</SectionTitle>
+          <p className="text-gray-700 dark:text-gray-300 mb-6">收到新增會員通知後，請依序執行以下動作，確保資料一致性：</p>
+          
+          <div className="space-y-4">
+            <div className="flex items-start bg-gray-50 dark:bg-gray-800 p-4 rounded-xl border border-gray-200 dark:border-gray-700">
+              <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-300 flex items-center justify-center font-bold mr-4 flex-shrink-0">1</div>
+              <div>
+                <h4 className="font-bold text-gray-800 dark:text-gray-100">索取資料</h4>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">聯繫該會員，索取所需之會員基本資料。</p>
+              </div>
+            </div>
+            
+            <div className="flex items-start bg-gray-50 dark:bg-gray-800 p-4 rounded-xl border border-gray-200 dark:border-gray-700">
+              <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-300 flex items-center justify-center font-bold mr-4 flex-shrink-0">2</div>
+              <div>
+                <h4 className="font-bold text-gray-800 dark:text-gray-100">建立基本資料文件</h4>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">建立「新增入會員基本資料」文件歸檔保存。</p>
+              </div>
+            </div>
+
+            <div className="flex items-start bg-gray-50 dark:bg-gray-800 p-4 rounded-xl border border-gray-200 dark:border-gray-700">
+              <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-300 flex items-center justify-center font-bold mr-4 flex-shrink-0">3</div>
+              <div className="w-full">
+                <h4 className="font-bold text-gray-800 dark:text-gray-100">更新會員名冊</h4>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">將新會員資訊加入至協會總會員名冊中。</p>
+              </div>
+            </div>
+          </div>
+
+          <AlertBox icon="fa-rotate" color="blue" title="切勿忘記！同步更新周邊表單">
+            <p className="mb-2">會員名冊更新後，必須同步更新以下關聯表單，以免下次開會漏列名單：</p>
+            <BulletList type="check" items={[
+              "簽到表",
+              "禮品領取表",
+              "出席統計表 (如需要)"
+            ]} />
+          </AlertBox>
+        </SOPLayout>
+      );
+
+      const HandoverSOPView = () => (
+        <SOPLayout title="友會交接 SOP" lastUpdated="今天" tags={["活動", "SOP"]}>
+          <SectionTitle>工作定位與職責</SectionTitle>
+          <p className="text-gray-700 dark:text-gray-300 mb-4">友會交接屬於「參加活動」性質。秘書在此類活動中主要負責行政支援與人員統計。</p>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+            {[
+              { icon: 'fa-list-ol', title: '接龍統計', desc: '在群組發布參加意願接龍並統計人數。' },
+              { icon: 'fa-users', title: '出席名單整理', desc: '彙整最終確定出席之會員名單。' },
+              { icon: 'fa-shield-halved', title: '旅平險', desc: '若舉辦於外縣市(非中彰投)，需辦理投保。' },
+              { icon: 'fa-folder-open', title: '行政資料整理', desc: '活動相關之行政文件彙整與歸檔。' }
+            ].map((task, i) => (
+               <div key={i} className="bg-white dark:bg-gray-800 p-5 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm flex items-start">
+                 <div className="w-10 h-10 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center mr-4 text-gray-500 dark:text-gray-400 flex-shrink-0">
+                   <i className={`fa-solid ${task.icon} text-lg`}></i>
+                 </div>
+                 <div>
+                   <h4 className="font-bold text-gray-800 dark:text-gray-100">{task.title}</h4>
+                   <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{task.desc}</p>
+                 </div>
+               </div>
+            ))}
+          </div>
+        </SOPLayout>
+      );
+
+      const BoardMeetingChecklistView = () => (
         <div className="max-w-3xl mx-auto fade-in pb-20">
           <div className="flex items-center text-sm text-gray-500 mb-6 print:hidden">
-            <button onClick={() => setCurrentView('home')} className="hover:text-gray-900 dark:hover:text-white">首頁</button>
+            <button onClick={() => setCurrentView('home')} className="hover:text-gray-900 dark:hover:text-white transition-colors">首頁</button>
             <i className="fa-solid fa-chevron-right text-xs mx-2"></i>
-            <button onClick={() => setCurrentView('board_meeting')} className="hover:text-gray-900 dark:hover:text-white">理監事聯席會</button>
+            <button onClick={() => setCurrentView('board_meeting_sop')} className="hover:text-gray-900 dark:hover:text-white transition-colors">理監事 SOP</button>
             <i className="fa-solid fa-chevron-right text-xs mx-2"></i>
-            <span className="text-gray-900 dark:text-white font-medium">攜帶清單</span>
+            <span className="text-gray-900 dark:text-white font-medium">出發前 Checklist</span>
           </div>
 
           <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
             <div className="px-6 sm:px-8 py-6 border-b border-gray-200 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-800/50 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
               <div>
                 <h1 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center">
-                  <i className="fa-regular fa-square-check mr-3 text-green-500"></i>
-                  會議攜帶 Checklist
+                  <span className="bg-orange-100 text-orange-600 dark:bg-orange-900/50 dark:text-orange-300 w-10 h-10 flex items-center justify-center rounded-lg mr-3 shadow-sm">
+                    <i className="fa-solid fa-list-check text-lg"></i>
+                  </span>
+                  理監事聯席會 - 出門攜帶 Checklist
                 </h1>
-                <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">出發前往會場前，請確實勾選確認已準備妥當。</p>
+                <p className="mt-2 text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
+                  其他會議相關檔案（財務報表、PPT 等）請至協會「工作硬碟」中存取。<br className="hidden sm:block" />
+                  出發前往會場前，請確實勾選以下清單，確認設備、文件及用品皆已準備妥當。
+                </p>
               </div>
               <button 
                 onClick={handlePrint}
                 className="flex items-center justify-center px-4 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors shadow-sm print:hidden w-full sm:w-auto"
               >
-                <i className="fa-solid fa-download mr-2"></i> 列印 / PDF
+                <i className="fa-solid fa-download mr-2"></i> 匯出 PDF
               </button>
             </div>
             
@@ -389,83 +699,6 @@
         </div>
       );
 
-      const SOPView = () => (
-        <div className="max-w-4xl mx-auto fade-in pb-20">
-          <div className="flex items-center text-sm text-gray-500 mb-6 print:hidden">
-            <button onClick={() => setCurrentView('home')} className="hover:text-gray-900 dark:hover:text-white">首頁</button>
-            <i className="fa-solid fa-chevron-right text-xs mx-2"></i>
-            <button onClick={() => setCurrentView('board_meeting')} className="hover:text-gray-900 dark:hover:text-white">理監事聯席會</button>
-            <i className="fa-solid fa-chevron-right text-xs mx-2"></i>
-            <span className="text-gray-900 dark:text-white font-medium">標準作業流程</span>
-          </div>
-
-          <article className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 sm:p-12 relative">
-            <div className="absolute top-6 right-6 sm:top-8 sm:right-8 flex space-x-2 print:hidden">
-               <button 
-                onClick={handlePrint}
-                className="w-10 h-10 flex items-center justify-center text-gray-500 hover:text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-gray-300 rounded-lg transition-colors border border-transparent hover:border-gray-200 dark:hover:border-gray-600"
-                title="列印或匯出PDF"
-              >
-                <i className="fa-solid fa-print text-lg"></i>
-              </button>
-            </div>
-
-            <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white mb-4 pr-12">理監事聯席會 SOP</h1>
-            
-            <div className="flex flex-wrap items-center gap-4 mb-8 text-sm text-gray-500 dark:text-gray-400 border-b border-gray-100 dark:border-gray-700 pb-6">
-              <div className="flex items-center">
-                <div className="w-6 h-6 rounded-full bg-blue-500 text-white flex items-center justify-center mr-2 text-xs font-bold shadow-sm">蘇</div>
-                最後更新：2026/07/06
-              </div>
-              <div className="flex items-center text-green-700 dark:text-green-400 bg-green-100 dark:bg-green-900/40 px-3 py-1 rounded-full font-medium text-xs">
-                <i className="fa-solid fa-circle-check mr-1.5"></i> 已核准定稿
-              </div>
-            </div>
-
-            <div className="space-y-8 text-base leading-relaxed">
-              <section>
-                <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 border-l-4 border-blue-500 pl-4 mb-4">一、 會前準備 (14天前)</h2>
-                <ul className="list-none space-y-3 text-gray-700 dark:text-gray-300 ml-2">
-                  <li className="flex items-start"><i className="fa-solid fa-caret-right text-blue-500 mt-1 mr-3"></i> <span>確認開會日期與地點（通常於公會會議室）。</span></li>
-                  <li className="flex items-start"><i className="fa-solid fa-caret-right text-blue-500 mt-1 mr-3"></i> <span>發送開會通知單給所有理監事（包含 Email 與 LINE 群組通知）。</span></li>
-                  <li className="flex items-start"><i className="fa-solid fa-caret-right text-blue-500 mt-1 mr-3"></i> <span>確認餐盒或茶點的訂購數量（需統計吃素人數）。</span></li>
-                </ul>
-              </section>
-
-              <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-5 border border-blue-100 dark:border-blue-800/50 shadow-sm">
-                <h4 className="font-bold text-blue-800 dark:text-blue-300 flex items-center mb-2">
-                  <i className="fa-regular fa-lightbulb text-xl mr-2 text-yellow-500"></i> 秘書處小提醒
-                </h4>
-                <p className="text-blue-700 dark:text-blue-400/90 m-0 text-sm sm:text-base">
-                  發送通知後，務必在 <strong>3天內</strong> 追蹤尚未回覆出席狀況的理監事，確保人數達法定開會標準（過半數）。
-                </p>
-              </div>
-
-              <section>
-                <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 border-l-4 border-blue-500 pl-4 mb-4">二、 會場佈置範例</h2>
-                <p className="text-gray-700 dark:text-gray-300 mb-4 ml-2">
-                  桌牌擺放順序：理事長居中，常務理事與常務監事居兩側，接著依序擺放。投影機與麥克風需於會議前30分鐘測試完畢。
-                </p>
-                
-                <div className="w-full aspect-video sm:h-72 bg-gray-100 dark:bg-gray-700 rounded-xl flex flex-col items-center justify-center border-2 border-dashed border-gray-300 dark:border-gray-600 shadow-inner group cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors">
-                  <i className="fa-regular fa-image text-4xl text-gray-400 group-hover:text-blue-400 transition-colors mb-3"></i>
-                  <span className="text-gray-500 dark:text-gray-400 font-medium">點擊上傳 / 會場桌牌擺放範例圖.jpg</span>
-                </div>
-              </section>
-
-              <section>
-                <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 border-l-4 border-blue-500 pl-4 mb-4">三、 會後工作 (3天內)</h2>
-                <ul className="list-none space-y-3 text-gray-700 dark:text-gray-300 ml-2">
-                  <li className="flex items-start"><i className="fa-solid fa-check text-green-500 mt-1 mr-3"></i> <span>整理會議紀錄，交由理事長簽核。</span></li>
-                  <li className="flex items-start"><i className="fa-solid fa-check text-green-500 mt-1 mr-3"></i> <span>將決議事項發佈至協會網站公告區。</span></li>
-                  <li className="flex items-start"><i className="fa-solid fa-check text-green-500 mt-1 mr-3"></i> <span>請款：結算餐盒、場地費等相關開銷，將發票交給財務。</span></li>
-                </ul>
-              </section>
-            </div>
-          </article>
-        </div>
-      );
-
       return (
         <div className="flex h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-sans overflow-hidden transition-colors duration-200 selection:bg-blue-200 selection:text-blue-900">
           <Sidebar />
@@ -474,21 +707,20 @@
             <Header />
             
             <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 scroll-smooth">
-              {/* 全站搜尋模擬結果 */}
               {searchQuery && searchQuery.includes('旅平險') ? (
                 <div className="max-w-3xl mx-auto fade-in">
                   <h2 className="text-xl font-bold mb-4">搜尋結果："{searchQuery}"</h2>
                   <div 
-                    className="bg-white dark:bg-gray-800 p-5 rounded-xl border border-gray-200 dark:border-gray-700 cursor-pointer hover:border-blue-500 dark:hover:border-blue-500 shadow-sm transition-all hover:-translate-y-0.5"
-                    onClick={() => { setSearchQuery(''); setCurrentView('sop'); }}
+                    className="bg-white dark:bg-gray-800 p-5 rounded-xl border border-gray-200 dark:border-gray-700 cursor-pointer hover:border-purple-500 dark:hover:border-purple-500 shadow-sm transition-all hover:-translate-y-0.5"
+                    onClick={() => { setSearchQuery(''); setCurrentView('insurance'); }}
                   >
-                    <div className="flex items-center text-blue-600 dark:text-blue-400 mb-2 text-lg">
+                    <div className="flex items-center text-purple-600 dark:text-purple-400 mb-2 text-lg">
                       <i className="fa-solid fa-shield-halved mr-2"></i>
-                      <span className="font-bold">旅平險投保 SOP</span>
+                      <span className="font-bold">旅遊平安險 SOP</span>
                     </div>
-                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">...將名冊匯出後，登入保險公司後台上傳檔案，確認金額無誤後刷卡結帳，並務必將保單影本存入【07-文件】資料夾中備查...</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">活動地點若離開臺中市、彰化縣、南投縣，即須辦理旅平險。工作流程包含：確認活動地點、接龍統計人數、至「02－報表」取得表單...</p>
                     <div className="flex space-x-2 text-xs font-medium text-gray-500 dark:text-gray-400">
-                      <span className="bg-gray-100 dark:bg-gray-700 px-2.5 py-1 rounded-md">會務</span>
+                      <span className="bg-gray-100 dark:bg-gray-700 px-2.5 py-1 rounded-md">手冊</span>
                       <span className="bg-gray-100 dark:bg-gray-700 px-2.5 py-1 rounded-md">保險</span>
                     </div>
                   </div>
@@ -496,40 +728,12 @@
               ) : (
                 <React.Fragment>
                   {currentView === 'home' && <HomeView />}
-                  {currentView === 'board_meeting' && <BoardMeetingView />}
-                  {currentView === 'checklist' && <ChecklistView />}
-                  {currentView === 'sop' && <SOPView />}
-                  
-                  {['new_member', 'insurance', 'finance', 'drive', 'photos'].includes(currentView) && (() => {
-                    const activeAction = QUICK_ACTIONS.find(a => a.id === currentView);
-                    return (
-                      <div className="max-w-4xl mx-auto fade-in py-10">
-                        <div className="flex items-center text-sm text-gray-500 mb-8">
-                          <button onClick={() => setCurrentView('home')} className="hover:text-gray-900 dark:hover:text-white transition-colors">首頁</button>
-                          <i className="fa-solid fa-chevron-right text-xs mx-2"></i>
-                          <span className="text-gray-900 dark:text-white font-medium">{activeAction?.title}</span>
-                        </div>
-
-                        <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-8 sm:p-16 flex flex-col items-center justify-center text-center shadow-sm">
-                          <div className={`w-20 h-20 rounded-2xl flex items-center justify-center mb-6 ${activeAction?.color}`}>
-                            <i className={`${activeAction?.icon} text-4xl`}></i>
-                          </div>
-                          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">{activeAction?.title} 工作區</h2>
-                          <div className="w-16 h-1 bg-gray-200 dark:bg-gray-700 rounded-full mb-6"></div>
-                          <p className="text-gray-500 dark:text-gray-400 max-w-md mx-auto mb-8 leading-relaxed">
-                            這裡是未來的「{activeAction?.title}」專屬管理介面。<br/>
-                            我們可以在這裡加入相關的 SOP、表單、檔案下載或進度追蹤功能，讓秘書處作業更無縫接軌！
-                          </p>
-                          <button 
-                            onClick={() => setCurrentView('home')} 
-                            className="px-6 py-2.5 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-lg transition-colors font-medium shadow-sm flex items-center"
-                          >
-                            <i className="fa-solid fa-arrow-left mr-2"></i> 返回首頁
-                          </button>
-                        </div>
-                      </div>
-                    );
-                  })()}
+                  {currentView === 'core_concepts' && <CoreConceptsView />}
+                  {currentView === 'board_meeting_sop' && <BoardMeetingSOPView />}
+                  {currentView === 'board_meeting_checklist' && <BoardMeetingChecklistView />}
+                  {currentView === 'insurance' && <InsuranceSOPView />}
+                  {currentView === 'new_member' && <NewMemberSOPView />}
+                  {currentView === 'handover' && <HandoverSOPView />}
                 </React.Fragment>
               )}
             </main>
@@ -538,7 +742,6 @@
       );
     }
 
-    // 將 React 應用程式掛載到畫面中
     const root = ReactDOM.createRoot(document.getElementById('root'));
     root.render(<App />);
   </script>
